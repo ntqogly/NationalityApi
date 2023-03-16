@@ -23,9 +23,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        adapter = CountryAdapter()
-        binding.rvCountries.layoutManager = LinearLayoutManager(this)
-        binding.rvCountries.adapter = adapter
+//        adapter = CountryAdapter()
+//        binding.rvCountries.layoutManager = LinearLayoutManager(this)
+//        binding.rvCountries.adapter = adapter
 
         binding.button.setOnClickListener {
             lifecycleScope.launch {
@@ -40,9 +40,10 @@ class MainActivity : AppCompatActivity() {
         binding.button.isEnabled = false
 //        CoroutineScope(Dispatchers.IO).launch {
         val api = ApiFactory.getApiService().getNationality()
+        binding.tvNation.text = api.country.toString()
 //            runOnUiThread {
 //                binding.apply {
-        adapter.submitList(api.country)
+//        adapter.submitList(api.country)
 //                }
 //            }
 //        }

@@ -21,14 +21,14 @@ class CountryAdapter : ListAdapter<Country, CountryAdapter.CountryViewHolder>(Co
     class CountryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = ItemCountriesBinding.bind(view)
         fun bind(country: Country) {
-            binding.tvCountry.text = country.country_id
+            binding.tvCountry.text = country.countryId
             binding.tvProbability.text = country.probability.toString()
         }
     }
 
     class Comparator : DiffUtil.ItemCallback<Country>() {
         override fun areItemsTheSame(oldItem: Country, newItem: Country): Boolean {
-            return oldItem.country_id == newItem.country_id
+            return oldItem.countryId == newItem.countryId
         }
 
         override fun areContentsTheSame(oldItem: Country, newItem: Country): Boolean {
