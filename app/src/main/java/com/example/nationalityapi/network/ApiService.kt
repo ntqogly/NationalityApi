@@ -8,7 +8,7 @@ interface ApiService {
 
     @GET("https://api.nationalize.io")
     suspend fun getNationality(
-        @Query(PARAM_NAME) name: String = "garib"
+        @Query(PARAM_NAME) name: String
     ): Countries
 
     companion object {

@@ -8,24 +8,29 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nationalityapi.databinding.ItemCountriesBinding
 import com.example.nationalityapi.models.Country
+import java.text.NumberFormat
 import java.util.*
 
 class CountryAdapter() : ListAdapter<Country, CountryAdapter.ViewHolder>(Comparator()) {
 
-//    val countryNameString = context.resources.getString(R.string.country)
-//    val probability = context.resources.getString(R.string.probability)
-
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = ItemCountriesBinding.bind(view)
+
         fun bind(country: Country) {
             val countryCode = country.country_id
             val locale = countryCode?.let { Locale("", it) }
             val countryName = locale?.displayCountry
 
-            binding.tvCountryApi.text = country.country_id
-            binding.tvProbabilityApi.text = country.probability.toString()
-//            binding.tvCountry.text = countryNameString
-//            binding.tvProbability.text = probability
+            val defaultFormat = NumberFormat.getPercentInstance()
+            defaultFormat.minimumFractionDigits
+            val percentageProbability = defaultFormat.format(country.probability)
+
+            binding.apply {
+                tvCountryApi.text = countryName
+                tvProbabilityApi.text = percentageProbability.toString()
+                tvCountry.text = "Страна:"
+                tvProbability.text = "Вероятность:"
+            }
         }
     }
 

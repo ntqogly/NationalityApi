@@ -4,4 +4,5 @@
     <string name="nationality">Nationality</string>
     <string name="country">Country:</string>
     <string name="probability">Probability:</string>
+    <string name="et_name">Введите имя</string>
 </resources>
