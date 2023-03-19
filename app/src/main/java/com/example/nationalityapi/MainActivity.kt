@@ -1,17 +1,16 @@
 package com.example.nationalityapi
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
-import android.view.View.INVISIBLE
-import android.view.View.VISIBLE
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nationalityapi.databinding.ActivityMainBinding
 import com.example.nationalityapi.network.ApiFactory
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
+import org.json.JSONObject
+import java.nio.charset.Charset
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,31 +22,31 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        adapter = CountryAdapter()
-//        binding.rvCountries.layoutManager = LinearLayoutManager(this)
-//        binding.rvCountries.adapter = adapter
+        adapter = CountryAdapter()
+        binding.rvCountries.layoutManager = LinearLayoutManager(this)
+        binding.rvCountries.adapter = adapter
 
         binding.button.setOnClickListener {
             lifecycleScope.launch {
-                loadNationality()
+                buttonLoad()
             }
         }
     }
 
-    private suspend fun loadNationality() {
+
+    private suspend fun buttonLoad() {
         binding.chronometer.base = SystemClock.elapsedRealtime()
         binding.chronometer.start()
         binding.button.isEnabled = false
-//        CoroutineScope(Dispatchers.IO).launch {
-        val api = ApiFactory.getApiService().getNationality()
-        binding.tvNation.text = api.country.toString()
-//            runOnUiThread {
-//                binding.apply {
-//        adapter.submitList(api.country)
-//                }
-//            }
-//        }
+        loadNationality()
         binding.chronometer.stop()
         binding.button.isEnabled = true
+    }
+
+    private suspend fun loadNationality() {
+        val list = ApiFactory.getApiService().getNationality()
+        binding.apply {
+            adapter.submitList(list.country)
+        }
     }
 }

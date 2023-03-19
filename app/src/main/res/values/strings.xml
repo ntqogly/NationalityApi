@@ -2,4 +2,6 @@
     <string name="app_name">NationalityApi</string>
     <string name="get">GET</string>
     <string name="nationality">Nationality</string>
+    <string name="country">Country:</string>
+    <string name="probability">Probability:</string>
 </resources>

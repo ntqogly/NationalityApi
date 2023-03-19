@@ -1,34 +1,40 @@
 package com.example.nationalityapi
 
-import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nationalityapi.databinding.ItemCountriesBinding
 import com.example.nationalityapi.models.Country
+import java.util.*
 
-class CountryAdapter : ListAdapter<Country, CountryAdapter.CountryViewHolder>(Comparator()) {
+class CountryAdapter(val context: Context) :
+    ListAdapter<Country, CountryAdapter.ViewHolder>(Comparator()) {
 
-    private var countryList: List<Country> = listOf()
-        @SuppressLint("NotifyDataSetChanged") set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+    val countryNameString = context.resources.getString(R.string.country)
+    val probability = context.resources.getString(R.string.probability)
 
-    class CountryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = ItemCountriesBinding.bind(view)
         fun bind(country: Country) {
-            binding.tvCountry.text = country.countryId
-            binding.tvProbability.text = country.probability.toString()
+            val countryCode = country.countryId
+            val locale = countryCode?.let { Locale("", it) }
+            val countryName = locale?.displayCountry
+
+            binding.tvCountryApi.text = countryName
+            binding.tvProbabilityApi.text = country.probability.toString()
+            binding.tvCountry.text = countryNameString
+            binding.tvProbability.text = probability
         }
     }
 
     class Comparator : DiffUtil.ItemCallback<Country>() {
         override fun areItemsTheSame(oldItem: Country, newItem: Country): Boolean {
-            return oldItem.countryId == newItem.countryId
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Country, newItem: Country): Boolean {
@@ -36,16 +42,14 @@ class CountryAdapter : ListAdapter<Country, CountryAdapter.CountryViewHolder>(Co
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CountryViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.item_countries, parent, false)
-        return CountryViewHolder(view)
+        return ViewHolder(view)
     }
 
-    override fun getItemCount() = countryList.size
-
-    override fun onBindViewHolder(countryViewHolder: CountryViewHolder, position: Int) {
-        countryViewHolder.bind(getItem(position))
+    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+        viewHolder.bind(getItem(position))
     }
 
 }
