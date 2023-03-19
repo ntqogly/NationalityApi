@@ -1,9 +1,7 @@
 package com.example.nationalityapi
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -12,23 +10,22 @@ import com.example.nationalityapi.databinding.ItemCountriesBinding
 import com.example.nationalityapi.models.Country
 import java.util.*
 
-class CountryAdapter(val context: Context) :
-    ListAdapter<Country, CountryAdapter.ViewHolder>(Comparator()) {
+class CountryAdapter() : ListAdapter<Country, CountryAdapter.ViewHolder>(Comparator()) {
 
-    val countryNameString = context.resources.getString(R.string.country)
-    val probability = context.resources.getString(R.string.probability)
+//    val countryNameString = context.resources.getString(R.string.country)
+//    val probability = context.resources.getString(R.string.probability)
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = ItemCountriesBinding.bind(view)
         fun bind(country: Country) {
-            val countryCode = country.countryId
+            val countryCode = country.country_id
             val locale = countryCode?.let { Locale("", it) }
             val countryName = locale?.displayCountry
 
-            binding.tvCountryApi.text = countryName
+            binding.tvCountryApi.text = country.country_id
             binding.tvProbabilityApi.text = country.probability.toString()
-            binding.tvCountry.text = countryNameString
-            binding.tvProbability.text = probability
+//            binding.tvCountry.text = countryNameString
+//            binding.tvProbability.text = probability
         }
     }
 
