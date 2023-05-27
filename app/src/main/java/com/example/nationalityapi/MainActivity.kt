@@ -30,8 +30,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-
     private suspend fun loadNationality() {
         binding.button.isEnabled = false
         val myName = binding.etName.text.toString()
